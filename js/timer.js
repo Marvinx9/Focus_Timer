@@ -5,11 +5,14 @@ export function Timer({
     resetControls,
 }) {
 
-    let timerTimeOut
+    let timerTimeOut;
 
-    function updateDisplay(minutes, seconds) {
+    function updateDisplay(newMinutes, seconds) {
         // atualização do display
-        minutesDisplay.textContent = String(minutes).padStart(2, '0')
+        //ternario, se 'new minutes' for igual a 'undefined' retorne minutes, senão retorne newMinutes
+        newMinutes = newMinutes === undefined ? minutes: newMinutes
+        seconds = seconds === undefined ? 0 : seconds
+        minutesDisplay.textContent = String(newMinutes).padStart(2, '0')
         secondsDisplay.textContent = String(seconds).padStart(2, '0')
     };
 
@@ -31,18 +34,20 @@ export function Timer({
         timerTimeOut = setTimeout(function() {
             let seconds = Number(secondsDisplay.textContent)
             let minutes = Number(minutesDisplay.textContent)
+            let isFinished = minutes <= 0 && seconds <= 0
 
             updateDisplay(minutes, 0)
             
             // quando o minutes for = 0 é enviado um return vazio, isso irá parar de rodar a função countdown
-            if( minutes <= 0 ) {
+            if( isFinished ) {
                 resetControls()
+                updateDisplay()
                 return
             }
             
             // se minutes for = 0, subtraia uma unidade de minutos
             if( seconds <= 0 ) {
-                seconds = 60
+                seconds = 3
                 --minutes
             }
             // caso as duas condições acima sejam falsas, subtraia um segundo da variável secondsDisplay.textContent
