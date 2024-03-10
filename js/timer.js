@@ -1,3 +1,5 @@
+import Sound from "./sounds.js";
+
 export function Timer({
     minutesDisplay,
     minutes,
@@ -42,12 +44,13 @@ export function Timer({
             if( isFinished ) {
                 resetControls()
                 updateDisplay()
+                Sound().timeEnd()
                 return
             }
             
             // se minutes for = 0, subtraia uma unidade de minutos
             if( seconds <= 0 ) {
-                seconds = 3
+                seconds = 60
                 --minutes
             }
             // caso as duas condições acima sejam falsas, subtraia um segundo da variável secondsDisplay.textContent
